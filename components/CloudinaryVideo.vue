@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h3>Current Time: {{ currentTime }}</h3>
+    <p>Current Time: {{ currentTime }}</p>
+    <p>Duration: {{ duration }}</p>
     <div>
       <button v-on:click="setVideoTime(5)">Go to 0:05</button>
     </div>
@@ -35,16 +36,22 @@ export default {
     onTimeUpdate(event) {
       this.currentTime = this.$refs.video.$videoElement.currentTime;
     },
+    onLoadedMetadata(event) {
+      this.duration = this.$refs.video.$videoElement.duration;
+    },
     setVideoTime(timestamp) {
       this.$refs.video.$videoElement.currentTime = timestamp;
     },
   },
   mounted: function () {
-    console.log(this.$refs.video);
-
     this.$refs.video.$videoElement.addEventListener(
       "timeupdate",
       this.onTimeUpdate
+    );
+
+    this.$refs.video.$videoElement.addEventListener(
+      "loadedmetadata",
+      this.onLoadedMetadata
     );
   },
 };
