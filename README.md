@@ -33,6 +33,10 @@ yarn add @soda/get-current-script
 yarn dev
 ```
 
+- add the modules / setup
+- create the new file
+- get the video by reference
+
 ## Feedback
 
 - great that the demo keys actually work
