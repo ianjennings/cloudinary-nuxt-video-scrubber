@@ -38,6 +38,7 @@ yarn dev
 - get the video by reference
 - [look at commits]
 - don't bind the model because we'll be setting / getting time to much and cause glitch
+- fix for glitch is here: https://jsfiddle.net/x1bkLg74/
 
 ## Feedback
 

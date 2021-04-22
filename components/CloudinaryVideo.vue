@@ -1,8 +1,7 @@
 <template>
   <div>
-    <p>Current Time: {{ currentTime }}</p>
+    <p>Current Time: {{ currentTime_ }}</p>
     <p>Duration: {{ duration }}</p>
-    <p>Percent Complete: {{ completionPercent }}%</p>
     <div>
       <button v-on:click="setVideoTime(5)">Go to 0:05</button>
     </div>
@@ -37,7 +36,7 @@ video {
 export default {
   data() {
     return {
-      currentTime: 0,
+      currentTime_: 0,
       duration: 0,
     };
   },
@@ -46,7 +45,7 @@ export default {
       this.show = true;
     },
     onTimeUpdate(event) {
-      this.currentTime = this.$refs.video.$videoElement.currentTime;
+      this.currentTime_ = this.$refs.video.$videoElement.currentTime;
     },
     onLoadedMetadata(event) {
       this.duration = this.$refs.video.$videoElement.duration;
@@ -55,14 +54,12 @@ export default {
       this.$refs.video.$videoElement.currentTime = timestamp;
     },
   },
-  watch: {
-    currentTime: function (newValue) {
-      this.setVideoTime(newValue);
-    },
-  },
   computed: {
-    completionPercent() {
-      return Math.round((this.currentTime / this.duration) * 100);
+    currentTime: {
+      get: ({ currentTime_ }) => currentTime_,
+      set(time) {
+        this.setVideoTime(time);
+      },
     },
   },
   mounted: function () {
