@@ -2,6 +2,7 @@
   <div>
     <p>Current Time: {{ currentTime }}</p>
     <p>Duration: {{ duration }}</p>
+    <p>Percent Complete: {{ completionPercent }}%</p>
     <div>
       <button v-on:click="setVideoTime(5)">Go to 0:05</button>
     </div>
@@ -41,6 +42,11 @@ export default {
     },
     setVideoTime(timestamp) {
       this.$refs.video.$videoElement.currentTime = timestamp;
+    },
+  },
+  computed: {
+    completionPercent() {
+      return Math.round((this.currentTime / this.duration) * 100);
     },
   },
   mounted: function () {
