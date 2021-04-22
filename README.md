@@ -1,7 +1,23 @@
-# cloudinary-vue-nuxt
+# Build a custom video scrubber with Cloudinary and Nuxt.js
+
+Nuxt is a static-site generator that upgrades the modularity of Vue.js for full-fledged web applications. Nuxt helps developers create fast and SEO optimized single page applications. We often see Nuxt powering blogs and other text based sites.
+
+But it doesn't end there! As Nuxt is based on Vue.js, there's no reason to be limited to text. This tutorial will demonstrate how you can extend Nuxt to serve and control video content with the Cloudinary Video player. 
+
+Cloudinary is an API for hosting and transforming image and video content. It's a great choice for a Nuxt project as you're guaranteed fast delivery. It's all about speed here. Cloudinary even has a handful of prebuilt Vue components you can use to modify your videos without a backend! 
+
+## Project Set Up
+
+First, create a new Nuxt app. The `nuxt-app` package is the [recommended](https://nuxtjs.org/docs/2.x/get-started/installation/) way to start a new project. In your console, run the following command:
 
 ```sh
-ianjennings@Gibson:~/Development-Unix$ npm init nuxt-app cloudinary-vue-nuxt
+yarn create nuxt-app cloudinary-vue-nuxt
+```
+
+Then follow the interactive prompts. You can find the options used for this demo below.
+
+```sh
+ianjennings@Gibson:~/Development-Unix$ yarn create nuxt-app cloudinary-vue-nuxt
 
 create-nuxt-app v3.6.0
 ✨  Generating Nuxt.js project in cloudinary-vue-nuxt
@@ -19,6 +35,18 @@ create-nuxt-app v3.6.0
 ? What is your GitHub username? ianjennings
 ? Version control system: Git
 ```
+
+Now that you have a clean Nuxt project, you should be able to use the `dev` command to run the project:
+
+```sh
+yarn dev
+```
+
+This will create a development server on `localhost:3000` where you can preview your changes.
+
+## Install the Cloudinary Nuxt Package
+
+Now it's time to add Cloudinary to the mix. Cloudinary 
 
 find the install guide here:
 https://cloudinary.nuxtjs.org/setup

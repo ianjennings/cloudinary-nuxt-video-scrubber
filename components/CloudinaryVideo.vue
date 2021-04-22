@@ -1,11 +1,15 @@
 <template>
   <div>
-    <cld-video
-      cloudName="demo"
-      publicId="dog"
-      controls="false"
-      ref="video"
-    ></cld-video>
+    <cld-video cloudName="demo" publicId="dog" controls="false" ref="video">
+      <cld-transformation width="0.4" angle="20" />
+      <cld-transformation
+        overlay="cloudinary_icon_white"
+        width="60"
+        opacity="50"
+        gravity="south_east"
+        y="15"
+        x="60"
+    /></cld-video>
 
     <div>
       <input
@@ -79,6 +83,8 @@ export default {
     },
   },
   mounted: function () {
+    console.log(this.$refs.video);
+
     this.$refs.video.$videoElement.addEventListener(
       "timeupdate",
       this.onTimeUpdate
