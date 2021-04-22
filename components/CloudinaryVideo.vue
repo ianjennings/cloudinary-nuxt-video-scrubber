@@ -70,7 +70,9 @@ export default {
   },
   computed: {
     currentTime: {
+      // return the actual video time instead of virtual time
       get: ({ currentTime_ }) => currentTime_,
+      // virtual time updates actual video time
       set(time) {
         this.setVideoTime(time);
       },
