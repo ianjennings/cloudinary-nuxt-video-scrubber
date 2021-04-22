@@ -28,14 +28,21 @@ export default {
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
-
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/cloudinary'
   ],
+
+  cloudinary: {
+    cloudName: 'demo',
+    apiKey: 'demo',
+    apiSecret: 'demo',
+    useComponent: true
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

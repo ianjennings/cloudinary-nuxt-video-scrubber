@@ -9,8 +9,11 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@babel/runtime-corejs2": "^7.13.17",
+    "@nuxtjs/cloudinary": "^1.0.3-beta-4",
+    "@soda/get-current-script": "^1.0.2",
+    "babel": "^6.23.0",
     "core-js": "^3.9.1",
     "nuxt": "^2.15.3"
-  },
-  "devDependencies": {}
+  }
 }

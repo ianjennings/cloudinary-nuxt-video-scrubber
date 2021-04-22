@@ -20,10 +20,17 @@ create-nuxt-app v3.6.0
 ? Version control system: Git
 ```
 
+find the install guide here:
+https://cloudinary.nuxtjs.org/setup
 
-```sh
-cd cloudinary-vue-nuxt
-npm run dev
+Some needed dependencies:
+```
+yarn add  @babel/runtime-corejs2
+yarn add @soda/get-current-script
+```
+
+```
+yarn dev
 ```
 
 ## Build Setup
