@@ -39,6 +39,8 @@ yarn dev
 - [look at commits]
 - don't bind the model because we'll be setting / getting time to much and cause glitch
 - fix for glitch is here: https://jsfiddle.net/x1bkLg74/
+- make dark background
+- copy slider code from here https://codepen.io/shashank_coder/pen/jOqxOpK
 
 ## Feedback
 

@@ -1,15 +1,9 @@
 <template>
   <div>
-    <p>Current Time: {{ currentTime_ }}</p>
-    <p>Duration: {{ duration }}</p>
-    <div>
-      <button v-on:click="setVideoTime(5)">Go to 0:05</button>
-    </div>
-
     <cld-video
       cloudName="demo"
       publicId="dog"
-      controls="true"
+      controls="false"
       ref="video"
     ></cld-video>
 
@@ -29,6 +23,26 @@
 <style scoped>
 video {
   width: 400px;
+}
+.slider {
+  width: 400px;
+  height: 15px;
+  -webkit-appearance: none;
+  background: #111;
+  outline: none;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 1);
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #0069ff;
+  cursor: pointer;
+  border: 4px solid #333;
+  box-shadow: -407px 0 0 400px #0069ff;
 }
 </style>
 
