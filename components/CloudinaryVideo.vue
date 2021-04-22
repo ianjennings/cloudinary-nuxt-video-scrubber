@@ -2,16 +2,29 @@
   <div>
     <h1>Hello, world!</h1>
 
-    <cld-video cloudName="demo" publicId="dog" controls="true">
-      <cld-transformation width="0.4" angle="20" />
-      <cld-transformation
-        overlay="cloudinary_icon_white"
-        width="60"
-        opacity="50"
-        gravity="south_east"
-        y="15"
-        x="60"
-      />
-    </cld-video>
+    <cld-video
+      cloudName="demo"
+      publicId="dog"
+      controls="true"
+      ref="video"
+    ></cld-video>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      show: false,
+    };
+  },
+  methods: {
+    showList() {
+      this.show = true;
+    },
+  },
+  mounted: function () {
+    console.log(this.$refs.video);
+  },
+};
+</script>
