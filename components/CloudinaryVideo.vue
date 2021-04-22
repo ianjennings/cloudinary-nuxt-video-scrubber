@@ -19,7 +19,7 @@
         type="range"
         :min="0"
         :max="duration"
-        :value="currentTime"
+        v-model="currentTime"
         class="slider"
         id="myRange"
       />
@@ -53,6 +53,11 @@ export default {
     },
     setVideoTime(timestamp) {
       this.$refs.video.$videoElement.currentTime = timestamp;
+    },
+  },
+  watch: {
+    currentTime: function (newValue) {
+      this.setVideoTime(newValue);
     },
   },
   computed: {

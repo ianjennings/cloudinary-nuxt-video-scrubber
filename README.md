@@ -36,6 +36,8 @@ yarn dev
 - add the modules / setup
 - create the new file
 - get the video by reference
+- [look at commits]
+- don't bind the model because we'll be setting / getting time to much and cause glitch
 
 ## Feedback
 
