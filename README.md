@@ -33,6 +33,20 @@ yarn add @soda/get-current-script
 yarn dev
 ```
 
+## Feedback
+
+- great that the demo keys actually work
+- some dependency issues
+
+this demo did not rotate the dog
+different dog than screenshot
+```html
+<cld-video cloudName="demo" publicId="dog" controls="true" >
+  <cld-transformation width="0.4" angle="20" />
+  <cld-transformation overlay="cloudinary_icon_white" width="60" opacity="50" gravity="south_east" y="15" x="60" />
+</cld-video>
+```
+
 ## Build Setup
 
 ```bash
