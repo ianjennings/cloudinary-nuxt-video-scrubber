@@ -2,6 +2,8 @@
 
 ![](screenshots/final.gif)
 
+> Find the [final demo on codesandbox](https://codesandbox.io/s/github/haxordx/cloudinary-nuxt-video-scrubber)
+
 Nuxt is a static-site generator that upgrades the modularity of Vue.js for full-fledged web applications. Nuxt helps developers create fast and SEO optimized single page applications. We often see Nuxt powering blogs and other text based sites.
 
 But it doesn't end there! As Nuxt is based on Vue.js, there's no reason to be limited to text. This tutorial will demonstrate how you can extend Nuxt to serve and control video content with the [Cloudinary Video player](https://demo.cloudinary.com/video-player/). 
