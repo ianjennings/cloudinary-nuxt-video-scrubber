@@ -290,7 +290,20 @@ However, when it comes time to react to `currentTime` updates via `get`, the cac
 
 In short, the video time can be set directly with `currentTime`, but only the cached `currentTime_` value is ever returned.
 
-That's it, now the slider is responsive and can be dragged to change the video time!
+Now the `:value` binding can be changed to a two-way `v-model` binding.
+
+```html
+<input
+  type="range"
+  :min="0"
+  :max="duration"
+  v-model="currentTime"
+  class="slider"
+  id="myRange"
+/>
+```
+
+That's it, the slider is responsive and can be dragged to change the video time!
 
 ![](screenshots/glitch-fix.gif)
 
