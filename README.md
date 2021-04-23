@@ -4,9 +4,9 @@
 
 Nuxt is a static-site generator that upgrades the modularity of Vue.js for full-fledged web applications. Nuxt helps developers create fast and SEO optimized single page applications. We often see Nuxt powering blogs and other text based sites.
 
-But it doesn't end there! As Nuxt is based on Vue.js, there's no reason to be limited to text. This tutorial will demonstrate how you can extend Nuxt to serve and control video content with the Cloudinary Video player. 
+But it doesn't end there! As Nuxt is based on Vue.js, there's no reason to be limited to text. This tutorial will demonstrate how you can extend Nuxt to serve and control video content with the [Cloudinary Video player](https://demo.cloudinary.com/video-player/). 
 
-Cloudinary is an API for hosting and transforming image and video content. It's a great choice for a Nuxt project as you're guaranteed fast delivery. It's all about speed here. Cloudinary even has a handful of prebuilt Vue components you can use to modify your videos without a backend! 
+Cloudinary is an API for hosting and transforming image and video content. It's a great choice for a Nuxt project as you're guaranteed fast delivery. It's all about speed here. Cloudinary even has a handful of prebuilt Vue components you can use to modify your videos without a back end! 
 
 ## Project Set Up
 
@@ -50,7 +50,7 @@ This will create a development server on `localhost:3000` where you can preview 
 
 Now it's time to add Cloudinary to the mix. You can find the [full install guide here](https://cloudinary.nuxtjs.org/setup).
 
-You may need to install some additional dependencies to get everything workgin.
+You may need to install some additional dependencies to get everything working.
 
 ```
 yarn add  @babel/runtime-corejs2
@@ -157,32 +157,184 @@ export default {
 
 ## Controlling Video Time
 
+Now that the current time is displayed, there needs to be a way to change it. The slider needs to both render and control the video time.
+
 So how will the video be controlled? Start manipulating the `<video>` time by creating a simple `<button>`.
 
+```html
+<button v-on:click="setVideoTime(5)">Go to 0:05</button>
+```
+
+The `setVideoTime()` method will set the `currentTime` of the video.
+
+```js
+setVideoTime(timestamp) {
+  this.$refs.video.$videoElement.currentTime = timestamp;
+}
+```
+
+Now when the button is pressed, it will seek the video to the 5 second mark.
+
 ![](screenshots/go-to-5-seconds.gif)
+
+That's the basis of it! The current video time can be displayed and controlled!
+
+## Getting the video duration
+
+The next step is to make a slider. The slider has three properties:
+
+- Minimum
+- Value
+- Maximum
+
+The slider **minimum** will be `0` as that represents the beginning of the video. 
+
+The **value** will be `currentTime` as gathered in the previous steps.
+
+What about the **maximum**? This should be the video duration, which doesn't exist in memory yet.
+
+To get the video duration, another event listener is bound to the `loadedmetadata` event. This is fired when the video has been loaded by the browser and the metadata (like duration!) is available.
+
+```js
+this.$refs.video.$videoElement.addEventListener(
+  "loadedmetadata",
+  this.onLoadedMetadata
+);
+```
+
+When that event is fired, the `onLoadedMetadata` callback will get the video duration from the `$videoElement` as seen in previous steps.
+
+```js
+onLoadedMetadata(event) {
+  this.duration = this.$refs.video.$videoElement.duration;
+},
+```
 
 ## Creating the slider
 
 ![](screenshots/slider.gif)
 
-## Problems Arise
+Now for the slider. The [HTML range input](https://www.w3schools.com/howto/howto_js_rangeslider.asp) is a great tool for this, no UI specific JS needed!
 
-- glitch outlined here: https://github.com/vuejs/vue/issues/10542#issuecomment-533642739
+Plug the **currentTime**, and **duration** into the input. For this step, bind the `:value` to the current time.
+
+`components/CloudinaryVideo.vue`
+```html
+<input
+  type="range"
+  :min="0"
+  :max="duration"
+  :value="currentTime"
+  class="slider"
+/>
+```
+
+## Two-Way Binding (the wrong way)
 
 ![](screenshots/glitch.gif)
 
-## Store the currentTime twice to avoid glitches
+You might notice that although the slider renders properly, interacting with it doesn't actually change the video.
 
-- don't bind the model because we'll be setting / getting time to much and cause glitch
-- fix for glitch is here: https://jsfiddle.net/x1bkLg74/
+In fact, if two way binding is attempted with `v-model` the video will begin to glitch. The video event fires, the slider updates and fires the event back to the video. So the video stutters.
+
+This normally wouldn't be a problem, but the `ontimeupdate` event is fired so frequently (and the value so precise) that by the time the DOM is updated, it's outdated, forcing the redraw to happen again.
+
+You can learn more about this behavior in [this Vue issue filed on GitHub](https://github.com/vuejs/vue/issues/10542#issuecomment-533642739).
+
+## Two-Way Binding
+
+To avoid the behavior found in the previous step, the l.
+
+First, `currentTime` will become `currentTime_` to indicate that it is a virtual property. This property will cache the value of `currentTime` in memory to prevent too many updates from occurring.
+
+
+```js
+export default {
+  data() {
+    return {
+      currentTime_: 0,
+      duration: 0,
+    };
+  },
+  //...
+}
+```
+
+The `onTimeUpdate` function:
+
+```js
+onTimeUpdate(event) {
+  this.currentTime_ = this.$refs.video.$videoElement.currentTime;
+},
+```
+
+Then, a new `currentTime` will be created, but this will actually be a `computed` property.
+
+```js
+computed: {
+  currentTime: {
+    set(time) {
+      this.setVideoTime(time);
+    },
+    get: ({ currentTime_ }) => currentTime_,
+  },
+}
+```
+
+
+The `set` method ensures that when `currentTime` is modified, it will behave normally.
+
+However, when it comes time to react to `currentTime` updates via `get`, the cached `currentTime_` will be returned instead. 
+
+In short, the video time can be set directly with `currentTime`, but only the cached `currentTime_` value is ever returned.
+
+That's it, now the slider is responsive and can be dragged to change the video time!
 
 ![](screenshots/glitch-fix.gif)
 
 ## Two way binding!
 
-Make background dark.
-
-Styles from here:
-- copy slider code from here https://codepen.io/shashank_coder/pen/jOqxOpK
-
 ![](screenshots/binding.gif)
+
+Finally, add some style to the demo. Add the `<style>` 
+tag to make the page dark and the slider a bit larger.
+
+These styles were adopted from [this codepen](https://codepen.io/shashank_coder/pen/jOqxOpK). Try styling the slider yourself!
+
+`components/CloudinaryVideo.vue`
+```html
+<style scoped>
+video {
+  width: 400px;
+}
+.slider {
+  width: 400px;
+  height: 15px;
+  -webkit-appearance: none;
+  background: #111;
+  outline: none;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 1);
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #0069ff;
+  cursor: pointer;
+  border: 4px solid #333;
+  box-shadow: -407px 0 0 400px #0069ff;
+}
+</style>
+```
+
+## Links
+
+- [Cloudinary Video player](https://demo.cloudinary.com/video-player/)
+- [Cloudinary Vue SDK](https://cloudinary.com/documentation/vue_video_manipulation)
+- [Nuxt Install](https://nuxtjs.org/docs/2.x/get-started/installation/)
+- [Vue `ontimeupdate` Behavior](https://github.com/vuejs/vue/issues/10542#issuecomment-533642739)
+- [CodePen Slider Styles](https://codepen.io/shashank_coder/pen/jOqxOpK)
+- [HTML range input](https://www.w3schools.com/howto/howto_js_rangeslider.asp)
